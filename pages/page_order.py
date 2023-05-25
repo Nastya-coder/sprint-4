@@ -1,4 +1,5 @@
-from pages.page_base import PageScooterBase
+import allure
+from pages.page_main import PageScooterMain
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions
@@ -8,7 +9,7 @@ from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
 
 
-class PageScooterOrder(PageScooterBase):
+class PageScooterOrder(PageScooterMain):
 
     label_scooter          = [By.XPATH, ".//div[text()='Для кого самокат']"]
     label_about_rent       = [By.XPATH, ".//div[text()='Про аренду']"]
@@ -93,20 +94,23 @@ class PageScooterOrder(PageScooterBase):
 
     def set_comment(self, comment):
         self.driver.find_element(*self.input_comment).send_keys(comment)
-                                
+
+    @allure.step("Нажимаем верхнюю кнопку Далее")
     def click_button_next(self):
         self.driver.find_element(*self.button_next).click()
         self.wait_for_visibility_of(self.label_rent())
 
+    @allure.step("Нажимаем кнопку Заказать")
     def click_button_order(self):
         self.driver.find_element(*self.button_order).click()
         self.wait_for_visibility_of(self.button_confirm())
         
+    @allure.step("Нажимаем верхнюю кнопку Да")
     def click_button_confirm(self):
         self.button_confirm().click()
         self.wait_for_visibility_of(self.label_confirmed())
 
-    # @allure.step('Заполняем поля личных данных заказчика')
+    @allure.step('Заполняем поля личных данных заказчика')
     def fill_your_info(self, first_name, last_name, address, station, number):
         self.set_first_name(first_name)
         self.set_last_name(last_name)
@@ -115,7 +119,7 @@ class PageScooterOrder(PageScooterBase):
         self.set_number(number)
         self.click_button_next()
 
-    # @allure.step('Заполняем поля деталей заказа')
+    @allure.step('Заполняем поля деталей заказа')
     def fill_rent_info(self, date, duration, is_black, is_gray, comment):
         self.set_date(date)
         self.set_duration(duration)

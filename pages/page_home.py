@@ -1,4 +1,5 @@
-from pages.page_base import PageScooterBase
+import allure
+from pages.page_main import PageScooterMain
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions
@@ -6,7 +7,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from urls import Url
 
 
-class PageScooterHome(PageScooterBase):
+class PageScooterHome(PageScooterMain):
 
     heading_faq = [By.XPATH, ".//div[@id='accordion__heading-{}']"]
     heading_panel = [By.XPATH, ".//div[@id='accordion__panel-{}']"]
@@ -34,10 +35,12 @@ class PageScooterHome(PageScooterBase):
     def faq_section_visible(self, number):
         return self.faq_panel(number).is_displayed()
 
+    @allure.step("Нажимаем верхнюю кнопку Заказать")
     def click_button_order_top(self):
         self.driver.find_elements(*self.buttons_order)[0].click()
         self.wait_for_url(Url.order)
 
+    @allure.step("Нажимаем нижнюю кнопку Заказать")
     def click_button_order_bottom(self):
         button_order = self.driver.find_elements(*self.buttons_order)[1]
         self.execute_script_on("arguments[0].click();", button_order)

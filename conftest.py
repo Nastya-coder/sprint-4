@@ -7,16 +7,9 @@ from pages.page_home import PageScooterHome
 from pages.page_order import PageScooterOrder
 
 
-@allure.step('Открываем домашнюю страницу')
+@allure.step('Создаём драйвер Firefox')
 @pytest.fixture
-def page_home():
+def driver():
     driver = webdriver.Firefox()
-    yield PageScooterHome(driver)
-    driver.quit()
-
-@allure.step('Открываем страницу заказа')
-@pytest.fixture
-def page_order():
-    driver = webdriver.Firefox()
-    yield PageScooterOrder(driver)
+    yield driver
     driver.quit()
